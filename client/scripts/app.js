@@ -1,5 +1,7 @@
 var app = {
-  handleUsernameClick: function() { return true}
+  handleUsernameClick: function() { return true; },
+
+  server: 'https://api.parse.com/1/classes/messages'
   // handleSubmit: {
   //   calledOnce: function() {return true},
 
@@ -13,22 +15,21 @@ app.init = function() {
       return app.handleUsernameClick();
     });
 
-    $('.button1').on('click', function() {
-      var inputMessage = document.getElementById('unique').value;
-      var object = {};
-      object.username = location.search.slice(10);
-      object.text = inputMessage;
-
-      app.renderMessage(object);
-      app.send(object.text)
-
+    $('.submit').on('click', function() {
+      app.handleSubmit();
     });
  
   });
 };
 
 app.handleSubmit = function() {
-  return true;
+  var inputMessage = document.getElementById('message').value;
+  var object = {};
+  object.username = location.search.slice(10);
+  object.text = inputMessage;
+
+  app.renderMessage(object);
+  app.send(object.text);
 };
 
 app.send = function(message) {
@@ -53,17 +54,17 @@ app.fetch = function () {
 
   $.ajax({
     // This is the url you should use to communicate with the parse API server.
-    // url: 'https://api.parse.com/1/classes/messages',
+    url: 'https://api.parse.com/1/classes/messages',
     type: 'GET',
-    // data: JSON.stringify(message),
-    // contentType: 'application/json',
-    // success: function (data) {
-    //   console.log('chatterbox: Message sent');
-    // },
-    // error: function (data) {
-    //   // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
-    //   console.error('chatterbox: Failed to send message', data);
-    // }
+    data: JSON.stringify(message),
+    contentType: 'application/json',
+    success: function (data) {
+      console.log('chatterbox: Message sent');
+    },
+    error: function (data) {
+      // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
+      console.error('chatterbox: Failed to send message', data);
+    }
   });
 
 };
@@ -113,3 +114,6 @@ window.onclick = function(event) {
 //   alert('testing submit');
 // });
 app.init();
+
+//link to fetch
+// https://parseplatform.github.io/docs/rest/guide/#request-format
