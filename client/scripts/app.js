@@ -17,8 +17,12 @@ app.init = function() {
 
     $('.submit').on('click', function() {
       app.handleSubmit();
+      console.log('clicked');
     });
- 
+
+    app.fetch();
+
+    // window.setInterval(app.fetch, 60000);
   });
 };
 
@@ -29,17 +33,20 @@ app.handleSubmit = function() {
   object.text = inputMessage;
 
   app.renderMessage(object);
-  app.send(object.text);
+  app.send(object);
 };
 
 app.send = function(message) {
+  // console.log('message: ', message)
   $.ajax({
     // This is the url you should use to communicate with the parse API server.
-    url: 'https://api.parse.com/1/classes/messages',
+    url: 'https://api.parse.com/1/classes/messages', 
     type: 'POST',
     data: JSON.stringify(message),
     contentType: 'application/json',
     success: function (data) {
+      console.log('data sent: ', data)
+      // console.log("this is the message, ", message)
       console.log('chatterbox: Message sent');
     },
     error: function (data) {
@@ -54,17 +61,28 @@ app.fetch = function () {
 
   $.ajax({
     // This is the url you should use to communicate with the parse API server.
-    url: 'https://api.parse.com/1/classes/messages',
+    url: 'https://api.parse.com/1/classes/messages' + '?where={"username":{"$lte":"Nick"},"createdAt":{"$gte":"2017-01-03T12:01:00.931Z"}}',
     type: 'GET',
+    //"username":{"$gte":"Nick"},
+    // data: 
     data: JSON.stringify(message),
     contentType: 'application/json',
     success: function (data) {
       console.log('chatterbox: Message sent');
+      console.log(data.results)
+      data.results.forEach(function (element) {
+        app.renderMessage(element);
+      });
+    // console.log(data.results.filter(function(obj) {
+    //     return obj.username === 'Nick'; 
+    //   }))
+
     },
     error: function (data) {
       // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
       console.error('chatterbox: Failed to send message', data);
     }
+
   });
 
 };
