@@ -1,19 +1,34 @@
 var app = {
-  handleUsernameClick: function() { return true},
-  handleSubmit: {calledOnce: function() {return true}}
+  handleUsernameClick: function() { return true}
+  // handleSubmit: {
+  //   calledOnce: function() {return true},
+
+  // }
 
 };
 
 app.init = function() {
-  $(document).ready(
+  $(document).ready(function(){
     $('.username').on('click', function() {
       return app.handleUsernameClick();
-    })
-  );
+    });
 
-  $('#sendMessage').submit(function() {
-    alert('testing submit');
+    $('.button1').on('click', function() {
+      var inputMessage = document.getElementById('unique').value;
+      var object = {};
+      object.username = location.search.slice(10);
+      object.text = inputMessage;
+
+      app.renderMessage(object);
+      app.send(object.text)
+
+    });
+ 
   });
+};
+
+app.handleSubmit = function() {
+  return true;
 };
 
 app.send = function(message) {
@@ -91,5 +106,10 @@ window.onclick = function(event) {
   }
 }
 
+// var value = document.getElementById('unique').value;
+// console.log(value);
 
-
+// $('body').on('click', function() {
+//   alert('testing submit');
+// });
+app.init();

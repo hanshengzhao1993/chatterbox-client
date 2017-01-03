@@ -27,16 +27,16 @@
     <div id="main">
       <h1>chatterbox</h1>
 
-        <form>
+        <form id="send">
           Input Message:<br>
-          <input type="text" name="message"><br>
-          <input type="submit" value="Submit">
+          <input type="text" name="message" id="unique" class="submit"><br>
+          <input type="button" value="Submit" class="button1">
         </form>
 
       <!-- Your HTML goes here! -->
         <div class="dropdown">
         <!-- onclick="myFunction()" -->
-          <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+          <button onclick="myFunction()" class="dropbtn">ChatRooms</button>
           <div id="roomSelect" class="dropdown-content">
             <a href="#">Main Chat Room</a>
           </div>
