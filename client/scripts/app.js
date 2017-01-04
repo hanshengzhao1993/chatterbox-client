@@ -1,3 +1,4 @@
+var tempData = [];
 var app = {
   handleUsernameClick: function() { return true; },
 
@@ -17,12 +18,11 @@ app.init = function() {
 
     $('.submit').on('click', function() {
       app.handleSubmit();
-      console.log('clicked');
     });
 
     app.fetch();
-    var date = new Date();
-    time = date.toISOString();
+    // var date = new Date();
+    // time = date.toISOString();
     
     // var date = new Date();
     window.setInterval(function () {
@@ -30,10 +30,14 @@ app.init = function() {
       time = date.toISOString();
     }, 1000);
 
-    window.setInterval(app.fetch, 10000);
-    window.setInterval(app.clearMessages, 10000);
+    window.setInterval(app.fetch, 30000);
+    window.setInterval(app.clearMessages, 30000);
+  
+
+
   });
 };
+  
 
 app.handleSubmit = function() {
   var inputMessage = document.getElementById('message').value;
@@ -90,10 +94,12 @@ app.fetch = function (time) {
     contentType: 'application/json',
     success: function (data) {
       console.log('chatterbox: Message sent');
-      console.log(data.results);
+      console.log('data:', data.results);
+
       var obj = {};
       data.results.forEach(function (element) {
         app.renderMessage(element);
+        tempData.push(element)
         if (obj[element.roomname] === undefined) {
           obj[element.roomname] = 1;
         }
@@ -114,6 +120,7 @@ app.fetch = function (time) {
 
 app.clearMessages = function () {
   $('#chats').empty();
+  $('.dropdown-content').empty();
 }; 
 
 app.renderMessage = function(messageObject) {
@@ -148,7 +155,28 @@ window.onclick = function(event) {
       }
     }
   }
-}
+};
+
+window.onclick = function () {
+  $('a').on('click', function() {
+    var roomClicked = $(this)[0].text;
+    console.log(tempData);
+
+    //clear existing messages
+    $('#chats').empty();
+
+    //filter tempdata array by roomname
+    var chatRoom = tempData.filter(function(object) {
+      return object.roomname === roomClicked;
+    });
+    //display filtered tempdata
+    chatRoom.forEach(function (element) {
+      app.renderMessage(element);
+    });
+
+    // console.log('clicked once');
+  });
+};
 
 // var value = document.getElementById('unique').value;
 // console.log(value);
