@@ -30,8 +30,8 @@ app.init = function() {
       time = date.toISOString();
     }, 1000);
 
-    window.setInterval(app.fetch, 5000);
-    window.setInterval(app.clearMessages, 5000);
+    window.setInterval(app.fetch, 10000);
+    window.setInterval(app.clearMessages, 10000);
   });
 };
 
@@ -90,9 +90,16 @@ app.fetch = function (time) {
     contentType: 'application/json',
     success: function (data) {
       console.log('chatterbox: Message sent');
-      console.log(data.results)
+      console.log(data.results);
+      var obj = {};
       data.results.forEach(function (element) {
         app.renderMessage(element);
+        if (obj[element.roomname] === undefined) {
+          obj[element.roomname] = 1;
+        }
+      });
+      _.each(obj, function (val, key) {
+        app.renderRoom(key);
       });
 
     },
@@ -119,7 +126,7 @@ app.renderMessage = function(messageObject) {
 
 app.renderRoom = function (roomName) {
   $('#roomSelect').append('<a>' + roomName + '</a>');
-  console.log('testing renderRoom');
+  // console.log('testing renderRoom');
 };
 
 /* When the user clicks on the button, 
