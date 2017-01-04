@@ -30,8 +30,8 @@ app.init = function() {
       time = date.toISOString();
     }, 1000);
 
-    window.setInterval(app.fetch, 30000);
-    window.setInterval(app.clearMessages, 30000);
+    window.setInterval(app.fetch, 1000);
+    // window.setInterval(app.clearMessages, 100000);
   
 
 
@@ -95,7 +95,7 @@ app.fetch = function (time) {
     success: function (data) {
       console.log('chatterbox: Message sent');
       console.log('data:', data.results);
-
+      $('#chats').empty();
       var obj = {};
       data.results.forEach(function (element) {
         app.renderMessage(element);
@@ -127,7 +127,9 @@ app.renderMessage = function(messageObject) {
   var user = messageObject.username;
   var text = messageObject.text;
   var room = messageObject.roomname;
-  $('#chats').append('<p class="username">' + user + ': ' + text + '</p>');
+  $('#chats').append('<div class="username">' + user + ': ' + '</div>');
+  $('#chats').append('<div class="userText">' + text + '</div>');
+
 
 };
 
@@ -157,6 +159,7 @@ window.onclick = function(event) {
   }
 };
 
+//filter by room
 window.onclick = function () {
   $('a').on('click', function() {
     var roomClicked = $(this)[0].text;
@@ -177,6 +180,33 @@ window.onclick = function () {
     // console.log('clicked once');
   });
 };
+
+//create friend list
+window.onclicks = function () {
+  $('.username').on('click', function() {
+    var messageClicked = $(this).html();
+    var split = messageClicked.split(': ');
+    // console.log('this is split: ', split, tempData);
+    var userName = split[0];
+    // $('.friend').append(userName);
+    // $(this).css('font-weight', 'Bold');
+    var selected = $(this);
+
+    tempData.map(function (element) {
+      if (element.username === userName) {
+
+        element.css('font-weight', 'Bold');
+      }
+    });
+    // console.log($('.username').text);
+    // var text = $(this)[0].text;
+    // console.log( $(this).html() );
+
+    // console.log(text)
+  });
+};
+
+
 
 // var value = document.getElementById('unique').value;
 // console.log(value);

@@ -59,6 +59,13 @@ form input[type=text] {
     padding: 5px;
 }
 
+.userText {
+    padding: 5px;
+    margin-bottom: 5px;
+    background-color: #eee;
+    border-color: #0089cb;
+}
+
 .chat {
     padding: 5px;
     margin-bottom: 5px;
@@ -86,6 +93,7 @@ form input[type=text] {
 .friend {
     color: #fff;
     background-color: #0090da;
+    float: right;
 }
 
 /* Dropdown Button */
@@ -131,4 +139,13 @@ form input[type=text] {
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
+
+#chats {
+    width: 80%;
+    height: 200px;
+    overflow: scroll;
+    clear: left;
+    float: left;
+    margin: 0 0 10px 10px;
+}
 
